@@ -23,7 +23,7 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
     
             //reset enemyHealth before starting new fight
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
     
             // use debugger to pause script from running to check whats going at that moment of code
             // debugger;
@@ -126,41 +126,52 @@ var fight = function(enemyName) {
         
             if (confirmSkip) {
                 window.alert(playerName + ' has chosen to skip this fight. Goodbye!');
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log('playerMoney', playerMoney);
                 break;
             }
         }
-            //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
-            enemyHealth = enemyHealth - playerAttack;
+        //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
+        var damage = randomNumber(playerAttack - 3, playerAttack);
+
+        enemyHealth = Math.max(0, enemyHealth - damage);
         
-            // Log a resulting message to the console so we know that it worked.
-            console.log(
-                playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
-            )
+        // Log a resulting message to the console so we know that it worked.
+        console.log(
+            playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
+        )
         
-            if (enemyHealth <= 0) {
-                window.alert(enemyName + ' has died!');
-                playerMoney = playerMoney + 20;
-                console.log(playerName + " now has " + playerMoney + " in the bank.");
-                break;
-            } else { 
-                window.alert(enemyName + ' still has ' + enemyHealth + ' health left.');
-            }
-            // Subtract the value of `enemyAttack` from the value of `playerHealth` and use that result to update the value in the `playerHealth` variable.
-            playerHealth = playerHealth - enemyAttack;
-            // Log a resulting message to the console so we know that it worked.
-            console.log(
-                enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
-            )
-        
-            if (playerHealth <= 0) {
-                window.alert(playerName + ' has died!');
-                break;
-            } else {
-                window.alert(playerName + ' still has ' + playerHealth + ' health left.');
-            }
+        if (enemyHealth <= 0) {
+            window.alert(enemyName + ' has died!');
+            playerMoney = playerMoney + 20;
+            console.log(playerName + " now has " + playerMoney + " in the bank.");
+            break;
+        } else { 
+            window.alert(enemyName + ' still has ' + enemyHealth + ' health left.');
         }
-    };
+        // Subtract the value of `enemyAttack` from the value of `playerHealth` and use that result to update the value in the `playerHealth` variable.
+        
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+        
+        playerHealth = Math.max(0, playerHealth - damage); 
+        // Log a resulting message to the console so we know that it worked.
+        console.log(
+            enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
+        )
+        
+        if (playerHealth <= 0) {
+            window.alert(playerName + ' has died!');
+            break;
+        } else {
+            window.alert(playerName + ' still has ' + playerHealth + ' health left.');
+        }
+    }
+};
+
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    return value;
+};
 
     startGame();
