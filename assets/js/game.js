@@ -66,28 +66,11 @@ var shop = function() {
     switch (shopOptionPrompt) {
         case "REFILL":
         case "refill":
-            if (playerInfo.money >= 7) {
-                window.alert("Refilling player's health by 20 for 7 dollars.");
-
-                // increase health and decrease money
-                playerInfo.health = playerInfo.health + 20;
-                playerInfo.money = playerInfo.money - 7;
-            } else {
-                window.alert("You don't have enough money!");
-            }
+            playerInfo.refillHealth();
             break;
         case "UPGRADE":
         case "upgrade":
-            if (playerInfo.money >= 7) {
-            window.alert("Upgrading player;s attack by 6 for 7 dollars.");
-
-            // increase attack decrease money
-            playerInfo.attack = playerInfo.attack + 6;
-            playerInfo.money = playerInfo.money - 7;
-            } else {
-                window.alert("You don't have enough money!");
-            }
-            
+            playerInfo.upgradeAttack();
             break;
         case "LEAVE":
         case "leave":
@@ -163,8 +146,17 @@ var randomNumber = function(min, max) {
     return value;
 };
 
+var getPlayername = function() {
+    var name = window.prompt("What is your robot't name?");
+    while (name === "" || name === null) {
+        name = prompt("What is your robots name?")
+    }
+    console.log("Your robot's name is " + name);
+    return name;
+};
+
 var playerInfo = {
-    name: window.prompt("What is your robot's name?"),
+    name: getPlayername(),
     health: 100,
     attack: 10,
     money: 10,
